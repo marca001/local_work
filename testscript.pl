@@ -8,8 +8,7 @@ use Data::Dumper;
 
 ###############################################################
 # CIS On Call iCalendar Check Test
-#	This is a modified version of oncall.pl that returns the next
-#	12+ people on call based on the passed in date.
+#	This is a modified version of oncall.pl that returns the next 12+ people on call
 ###############################################################
 
 # Synopsis
@@ -19,6 +18,11 @@ use Data::Dumper;
 # - Compare events in calendar hash with today's date
 # - If event summary is "CIS On Call", 
 # - store in hash to be printed
+
+# Usage
+
+# - arg0 : Optional parameter of specified date (YYYYMMDD). Otherwise, assumes today
+# - ex. perl testscript.pl 20120703
 
 ###
 # - Write a copy of ical to a file
@@ -42,7 +46,10 @@ if(!$calendar){
 
 #Only populate calendar hash with dates from last week to next 12 weeks
 #$today = Date::Simple->new();
-$today = Date::Simple::d8($ARGV[0]);
+$today = Date::Simple->new();
+if($ARGV[0] ne ""){
+	$today = Date::Simple::d8($ARGV[0]);
+}
 $lastWeek = $today - 7;
 $nextWeek = $today + 7*12;
 

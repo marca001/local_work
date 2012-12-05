@@ -17,7 +17,12 @@ use Data::Dumper;
 # - Create a calendar hash by parsing ical file
 # - Compare events in calendar hash with today's date
 # - If an event matches today's date and summary is "CIS On Call", 
-# - return the name in that event
+# - returns the name in that event
+
+# Usage
+
+# - arg0 : Optional parameter of specified date (YYYYMMDD). Otherwise, assumes today
+# - ex. perl oncall.pl 20120703
 
 ###
 # - Write a copy of ical to a file
@@ -40,8 +45,10 @@ if(!$calendar){
 ###
 
 #Only populate calendar hash with dates from last week to next week
-#$today = Date::Simple->new();
-$today = Date::Simple::d8($ARGV[0]);
+$today = Date::Simple->new();
+if($ARGV[0] ne ""){
+	$today = Date::Simple::d8($ARGV[0]);
+}
 $lastWeek = $today - 7;
 $nextWeek = $today + 7; #maybe we don't need next week...
 
